@@ -1,0 +1,26 @@
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.option {
+    margin: 10px;
+    height: 40vmin;
+    /* width: 50vmin;
+    height: 50vmin; */
+    border-radius: 5px;
+    background-color: lightgrey;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #EEF;
+    margin-top: 10px;
+}
