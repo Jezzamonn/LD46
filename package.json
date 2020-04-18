@@ -18,7 +18,12 @@
       ],
       "extensions": "html,css"
     },
-    "webpack": "src/js/**"
+    "webpack": {
+      "patterns": [
+        "src/js/**"
+      ],
+      "extensions": "js,ts"
+    }
   },
   "author": "Jezzamon",
   "license": "ISC",
@@ -32,6 +37,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.9.0",
     "babel-loader": "^8.1.0",
+    "chance": "^1.1.4",
     "express": "^4.17.1",
     "npm-watch": "^0.6.0",
     "reload": "^3.0.4",

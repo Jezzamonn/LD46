@@ -1,13 +1,16 @@
 import http from 'http';
 import SocketIO from 'socket.io';
+import { RoomManager } from './room-manager';
+import { Chance } from 'chance';
 
-let server = http.createServer();
-let io = SocketIO(server);
+const server = http.createServer();
+const io = SocketIO(server);
 
-console.log('server is running!');
+const rng = new Chance('some seed');
+const roomManager = new RoomManager(() => rng.string({length: 5, alpha: true, casing: 'upper'}));
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log(`user connected, id ${socket.request.connection.remoteAddress}.`);
 
     socket.on('disconnect', () => {
       console.log('user disconnected');

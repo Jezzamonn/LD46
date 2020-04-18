@@ -3,10 +3,13 @@ const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
 const common = {
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.json']
+    },
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(ts|js)x?$/,
                 loader: 'babel-loader',
                 query: {
                     presets: ['@babel/preset-typescript']
