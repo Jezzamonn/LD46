@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-const serverAddress = 'localhost:3000'
+const serverAddress = '192.168.1.134:3000'
 let socket: SocketIOClient.Socket = null;
 
 function init() {
