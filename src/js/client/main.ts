@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 const serverAddress = 'localhost:3000'
-let socket = null;
+let socket: SocketIOClient.Socket = null;
 
 function init() {
 	initSocketIo();
