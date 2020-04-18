@@ -8,7 +8,7 @@ function init() {
 }
 
 function initSocketIo() {
-	socket = new io(serverAddress)
+	socket = io(serverAddress)
 
 	socket.on('connect', () => {
 		console.log('connected to server!');

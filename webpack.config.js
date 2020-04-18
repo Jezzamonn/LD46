@@ -9,7 +9,7 @@ const common = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 query: {
-                    presets: ['@babel/preset-env']
+                    presets: ['@babel/preset-typescript']
                 }
             }
         ]
@@ -21,7 +21,7 @@ const common = {
 }
 
 const client = {
-    entry: './src/js/client/main.js',
+    entry: './src/js/client/main.ts',
     output: {
         path: path.resolve(__dirname, 'build/client/js'),
         filename: 'main.bundle.js'
@@ -30,7 +30,7 @@ const client = {
 }
 
 const server = {
-    entry: './src/js/server/server.js',
+    entry: './src/js/server/server.ts',
     output: {
         path: path.resolve(__dirname, 'build/server'),
         filename: 'server.bundle.js'

@@ -2,7 +2,7 @@ import http from 'http';
 import SocketIO from 'socket.io';
 
 let server = http.createServer();
-let io = new SocketIO(server);
+let io = SocketIO(server);
 
 console.log('server is running!');
 
