@@ -6,7 +6,9 @@
   "scripts": {
     "watch": "npm-watch",
     "reload": "reload -b -d build/client",
-    "static": "mkdir -p build/client/ && rsync -a --delete --exclude js/ src/static/ build/client/"
+    "static": "mkdir -p build/client/ && rsync -a --delete --exclude js/ src/static/ build/client/",
+    "webpack": "webpack",
+    "clean": "rm -rf build/*"
   },
   "watch": {
     "static": {
@@ -19,7 +21,16 @@
   "author": "Jezzamon",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
     "npm-watch": "^0.6.0",
-    "reload": "^3.0.4"
+    "reload": "^3.0.4",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }
