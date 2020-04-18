@@ -8,6 +8,7 @@
     "reload": "reload -b -d build/client",
     "static": "mkdir -p build/client/ && rsync -a --delete --exclude js/ src/static/ build/client/",
     "webpack": "webpack",
+    "server": "node build/server/server.bundle.js",
     "clean": "rm -rf build/*"
   },
   "watch": {
@@ -16,21 +17,25 @@
         "src/static/**"
       ],
       "extensions": "html,css"
-    }
+    },
+    "webpack": "src/js/**"
   },
   "author": "Jezzamon",
   "license": "ISC",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.1.0",
-    "babel-preset-env": "^1.7.0",
-    "webpack-node-externals": "^1.7.2"
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-loader": "^8.1.0",
+    "express": "^4.17.1",
     "npm-watch": "^0.6.0",
     "reload": "^3.0.4",
+    "socket.io": "^2.3.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   }
 }
