@@ -4,8 +4,22 @@
   "description": "Ludum Dare 46",
   "main": "index.js",
   "scripts": {
+    "watch": "npm-watch",
+    "reload": "reload -b -d build/client",
     "static": "mkdir -p build/client/ && rsync -a --delete --exclude js/ src/static/ build/client/"
   },
+  "watch": {
+    "static": {
+      "patterns": [
+        "src/static/**"
+      ],
+      "extensions": "html,css"
+    }
+  },
   "author": "Jezzamon",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "npm-watch": "^0.6.0",
+    "reload": "^3.0.4"
+  }
 }
