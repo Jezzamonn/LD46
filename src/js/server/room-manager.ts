@@ -13,6 +13,7 @@ export class RoomManager {
     }
 
     getRoom(roomId: string): Room | null {
+        roomId = roomId.toUpperCase();
         if (roomId in this.roomsByRoomId) {
             return this.roomsByRoomId[roomId];
         }
@@ -27,11 +28,9 @@ export class RoomManager {
                 continue;
             }
 
-            const newRoom = {
-                id: roomId,
-                lastUsed: Date.now(),
-                clients: {},
-            }
+            const newRoom = new Room(roomId);
+            newRoom.lastUsed = Date.now();
+
             this.roomsByRoomId[roomId] = newRoom;
 
             return newRoom;
@@ -58,10 +57,8 @@ export class RoomManager {
             return false;
         }
 
-        const client = {
-            id: clientId,
-            lastPing: Date.now(),
-        }
+        const client = new Client(clientId);
+        client.lastPing = Date.now();
 
         room.clients[clientId] = client;
         this.roomsByClientId[clientId] = room;
@@ -95,13 +92,22 @@ export class RoomManager {
     // TODO: Clearing old rooms
 }
 
-interface Room {
+class Room {
     id: string;
     lastUsed: number;
     clients: {[key: string]: Client};
+
+    constructor(id: string) {
+        this.id = id;
+        this.clients = {};
+    }
 }
 
-interface Client {
-    id: string,
+class Client {
+    id: string;
     lastPing: number;
+
+    constructor(id: string) {
+        this.id = id;
+    }
 }

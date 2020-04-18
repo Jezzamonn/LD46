@@ -10,10 +10,41 @@ const rng = new Chance('some seed');
 const roomManager = new RoomManager(() => rng.string({length: 5, alpha: true, casing: 'upper'}));
 
 io.on('connection', (socket) => {
-    console.log(`user connected, id ${socket.request.connection.remoteAddress}.`);
+    const clientId = socket.request.connection.remoteAddress;
+    console.log(`user connected, id ${clientId}.`);
 
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+        console.log('user disconnected');
+    });
+
+    socket.on('new-room', (fn) => {
+        const room = roomManager.newRoom();
+        if (room == null) {
+            fn();
+            return;
+        }
+        const success = roomManager.joinRoom(room.id, clientId);
+        if (!success) {
+            fn();
+            return;
+        }
+        console.log(`Created room ${room.id}`);
+        fn(room.id);
+    });
+
+    socket.on('join-room', (roomId, fn) => {
+        const room = roomManager.getRoom(roomId);
+        if (room == null) {
+            fn();
+            return;
+        }
+        const success = roomManager.joinRoom(room.id, clientId);
+        if (!success) {
+            fn();
+            return;
+        }
+        console.log(`Client joined room ${room.id}`);
+        fn(room.id);
     });
 })
 
