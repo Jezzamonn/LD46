@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
 
     socket.on('new-room', (fn) => {
         const room = roomManager.newRoom();
-        if (room == null) {
+        if (!room) {
             fn();
             return;
         }
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 
     socket.on('join-room', (roomId, fn) => {
         const room = roomManager.getRoom(roomId);
-        if (room == null) {
+        if (!room) {
             fn();
             return;
         }
@@ -44,6 +44,15 @@ io.on('connection', (socket) => {
             return;
         }
         console.log(`Client joined room ${room.id}`);
+        fn(room.id);
+    });
+
+    socket.on('get-room', (fn) => {
+        const room = roomManager.getClientRoom(clientId);
+        if (!room) {
+            fn();
+            return;
+        }
         fn(room.id);
     });
 })
