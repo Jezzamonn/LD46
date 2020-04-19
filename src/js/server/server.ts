@@ -11,10 +11,9 @@ const roomManager = new RoomManager(() => rng.string({length: 5, alpha: true, ca
 
 io.on('connection', (socket) => {
     const clientId = socket.request.connection.remoteAddress;
-    console.log(`user connected, id ${clientId}.`);
 
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        // TODO: mark them as idle in the game
     });
 
     socket.on('new-room', (fn) => {
