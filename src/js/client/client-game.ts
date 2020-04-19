@@ -4,8 +4,7 @@ export class ClientGame {
     inRoom: boolean;
     setMessage: (message: string) => void;
     
-    constructor(socket: SocketIOClient.Socket) {
-        this.socket = socket;
+    constructor() {
         this.roomId = '';
         this.inRoom = false;
 

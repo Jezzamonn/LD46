@@ -10,10 +10,8 @@ const common = {
         rules: [
             {
                 test: /\.(ts|js)x?$/,
+                exclude: /node_modules/,
                 loader: 'babel-loader',
-                query: {
-                    presets: ['@babel/preset-typescript']
-                }
             }
         ]
     },

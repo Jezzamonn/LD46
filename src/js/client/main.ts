@@ -1,6 +1,9 @@
 import io from 'socket.io-client';
 import { ClientGame } from './client-game';
 import { GameViewModel } from './game-viewmodel';
+import { Root } from './views/root';
+import ReactDOM from 'react-dom';
+import React from 'react';
 
 const serverAddress = '192.168.1.134:3000'
 let socket: SocketIOClient.Socket = null;
@@ -10,10 +13,17 @@ let viewModel: GameViewModel = null;
 let connectedOnce = false;
 
 function init() {
+	// TODO: Think about restructing this so we don't have to do all this building before rendering
+	game = new ClientGame();
+
+	const reactContainer = document.querySelector('.react-container');
+	const rootComponent = React.createElement(Root, {game});
+	ReactDOM.render(rootComponent, reactContainer);
+
 	initSocketIo();
 
-	game = new ClientGame(socket);
-	viewModel = new GameViewModel(game);
+	// TODO... what if something happens before this happens?
+	game.socket = socket;
 }
 
 function initSocketIo() {
@@ -22,7 +32,6 @@ function initSocketIo() {
 	socket.on('connect', () => {
 		console.log('connected to server!');
 		if (!connectedOnce) {
-			viewModel.start();
 		}
 		connectedOnce = true;
 	});
