@@ -8,6 +8,9 @@ export class EntryPoint extends React.Component<{'game': ClientGame}, any> {
             header: 'Hello!',
             roomInput: '',
         }
+        props.game.stateChange = () => {
+            this.setState({header: `In Room: ${props.game.roomId}`});
+        }
     }
 
     handleRoomInputChange(event) {
@@ -22,7 +25,7 @@ export class EntryPoint extends React.Component<{'game': ClientGame}, any> {
                     <div className="option">
                         <button
                             className="button new-room-button"
-                            onClick={this.props.game.newRoom}>
+                            onClick={() => this.props.game.newRoom()}>
                             New Room
                         </button>
                     </div>
@@ -31,7 +34,7 @@ export class EntryPoint extends React.Component<{'game': ClientGame}, any> {
                             type="text"
                             className="room-input"
                             value={this.state.roomInput}
-                            onChange={this.handleRoomInputChange}>
+                            onChange={(e) => this.handleRoomInputChange(e)}>
                         </input>
                         <button
                             className="button join-room-button"

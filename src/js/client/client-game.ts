@@ -2,13 +2,12 @@ export class ClientGame {
     socket: SocketIOClient.Socket;
     roomId: string;
     inRoom: boolean;
-    setMessage: (message: string) => void;
+    stateChange: () => void;
     
     constructor() {
         this.roomId = '';
         this.inRoom = false;
-
-        this.setMessage = () => {};
+        this.stateChange = () => {};
     }
 
     getRoom() {
@@ -25,7 +24,7 @@ export class ClientGame {
     _setRoom(roomId: string) {
         this.roomId = roomId;
         this.inRoom = true;
-        this.setMessage(`Room: ${roomId}`);
+        this.stateChange();
     }
 
     newRoom() {

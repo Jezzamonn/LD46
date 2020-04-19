@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
 import { ClientGame } from './client-game';
-import { GameViewModel } from './game-viewmodel';
 import { Root } from './views/root';
 import ReactDOM from 'react-dom';
 import React from 'react';
@@ -9,7 +8,6 @@ const serverAddress = '192.168.1.134:3000'
 let socket: SocketIOClient.Socket = null;
 
 let game: ClientGame = null;
-let viewModel: GameViewModel = null;
 let connectedOnce = false;
 
 function init() {
@@ -32,6 +30,7 @@ function initSocketIo() {
 	socket.on('connect', () => {
 		console.log('connected to server!');
 		if (!connectedOnce) {
+			game.getRoom();
 		}
 		connectedOnce = true;
 	});
