@@ -22,7 +22,7 @@
       "patterns": [
         "src/js/**"
       ],
-      "extensions": "js,ts"
+      "extensions": "js,jsx,ts,tsx"
     }
   },
   "author": "Jezzamon",
