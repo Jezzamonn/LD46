@@ -9,9 +9,11 @@ interface Status {
 interface GameInfo {
     state: GameState;
     players: PlayerInfo[];
+    indexOfRequester: number;
 }
 
 interface PlayerInfo {
+    name: string;
     type?: PlayerType;
     owner: boolean;
     cards: Card[];

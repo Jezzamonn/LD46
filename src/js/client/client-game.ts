@@ -1,10 +1,13 @@
 export class ClientGame {
     socket: SocketIOClient.Socket;
-    roomId: string;
-    inRoom: boolean;
     stateChange: () => void;
 
+    playerName: string;
+    roomId: string;
+    inRoom: boolean;
+
     constructor() {
+        this.playerName = '';
         this.roomId = '';
         this.inRoom = false;
         this.stateChange = () => {};
@@ -22,6 +25,8 @@ export class ClientGame {
 
     setStatus(status: Status): void {
         this._setRoom(status.roomId);
+        this.playerName = status.gameInfo.players[status.gameInfo.indexOfRequester].name;
+        this.stateChange();
     }
 
     _setRoom(roomId: string) {
@@ -39,7 +44,11 @@ export class ClientGame {
         if (this.inRoom) {
             return;
         }
-		this.socket.emit('new-room', (roomId: string) => {
+        if (!this.playerName) {
+            // TODO: notify user on error
+            return;
+        }
+		this.socket.emit('new-room', {name: this.playerName}, (roomId: string) => {
             if (!roomId) {
                 return;
             }
@@ -52,7 +61,11 @@ export class ClientGame {
         if (this.inRoom) {
             return;
         }
-        this.socket.emit('join-room', roomId, (roomId: string) => {
+        if (!this.playerName) {
+            // TODO: notify user on error
+            return;
+        }
+        this.socket.emit('join-room', {name: this.playerName, roomId}, (roomId: string) => {
             if (!roomId) {
                 return;
             }

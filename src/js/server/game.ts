@@ -76,6 +76,7 @@ export class Game {
         const gameInfo: GameInfo = {
             state: this.state,
             players: [],
+            indexOfRequester: this.players.indexOf(requestingPlayer),
         };
         for (const player of this.players) {
             const getFullInfo = player == requestingPlayer;
@@ -93,13 +94,13 @@ export class Game {
 
     // Actions that can happen on the game.
 
-    addPlayer(playerId: string) {
+    addPlayer(playerId: string, name: string) {
         if (this.state != 'start') {
             // Can't add player!
             return;
         }
 
-        const player = new Player(playerId);
+        const player = new Player(playerId, name);
         player.owner = this.players.length == 0;
 
         this.players.push(player);
@@ -197,18 +198,18 @@ export class Game {
 }
 
 export class Player {
-    // TODO: player names
-
     // The IP address of the connecting user
     id: string;
+    name: string;
     type: PlayerType;
     owner: boolean;
     cards: Card[];
     selectedCard: Card | null;
     chosen: boolean;
 
-    constructor(id: string) {
+    constructor(id: string, name: string) {
         this.id = id;
+        this.name = name;
         this.type = 'good';
         this.owner = false;
         this.cards = [];
@@ -226,6 +227,7 @@ export class Player {
         showSelection: boolean,
     }): PlayerInfo {
         const info: PlayerInfo = {
+            name: this.name,
             owner: this.owner,
             chosen: this.chosen,
             cards: [],

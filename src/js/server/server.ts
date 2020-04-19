@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
         // TODO: mark them as idle in the game
     });
 
-    socket.on('new-room', (fn) => {
+    socket.on('new-room', ({name}, fn) => {
         const room = roomManager.newRoom();
         if (!room) {
             fn();
@@ -27,11 +27,12 @@ io.on('connection', (socket) => {
             fn();
             return;
         }
+        room.game.addPlayer(clientId, name);
         console.log(`Created room ${room.id}`);
         fn(room.id);
     });
 
-    socket.on('join-room', (roomId, fn) => {
+    socket.on('join-room', ({roomId, name}, fn) => {
         const room = roomManager.getRoom(roomId);
         if (!room) {
             fn();
@@ -42,6 +43,7 @@ io.on('connection', (socket) => {
             fn();
             return;
         }
+        room.game.addPlayer(clientId, name);
         console.log(`Client joined room ${room.id}`);
         fn(room.id);
     });
@@ -62,7 +64,7 @@ io.on('connection', (socket) => {
             return;
         }
         const gameInfo = room.game.getGameInfo(clientId);
-        const status = {
+        const status: Status = {
             roomId: room.id,
             gameInfo
         };

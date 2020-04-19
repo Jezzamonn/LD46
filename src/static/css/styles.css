@@ -25,6 +25,14 @@ body {
     align-items: center;
 }
 
+.username-section {
+    text-align: center;
+    background-color: lightgrey;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+}
+
 .button {
     padding: 10px;
     border: none;
