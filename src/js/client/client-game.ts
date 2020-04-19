@@ -3,25 +3,33 @@ export class ClientGame {
     roomId: string;
     inRoom: boolean;
     stateChange: () => void;
-    
+
     constructor() {
         this.roomId = '';
         this.inRoom = false;
         this.stateChange = () => {};
     }
 
-    getRoom() {
-        this.socket.emit('get-room', (roomId: string) => {
-            if (!roomId) {
-                // No room yet. That's ok.
+    getStatus() {
+        this.socket.emit('get-status', (status: Status) => {
+            if (!status) {
+                // No status. That might just mean we opened the page with no game yet. That's ok.
                 return;
             }
-            this._setRoom(roomId);
-            console.log(`Rejoined room ${roomId}.`);
+            this.setStatus(status);
         });
     }
 
+    setStatus(status: Status): void {
+        this._setRoom(status.roomId);
+    }
+
     _setRoom(roomId: string) {
+        if (roomId == this.roomId) {
+            // Nothing to update
+            return;
+        }
+        console.log(`Rejoined room ${roomId}.`);
         this.roomId = roomId;
         this.inRoom = true;
         this.stateChange();

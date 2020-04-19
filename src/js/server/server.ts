@@ -54,6 +54,20 @@ io.on('connection', (socket) => {
         }
         fn(room.id);
     });
+
+    socket.on('get-status', (fn) => {
+        const room = roomManager.getClientRoom(clientId);
+        if (!room) {
+            fn();
+            return;
+        }
+        const gameInfo = room.game.getGameInfo(clientId);
+        const status = {
+            roomId: room.id,
+            gameInfo
+        };
+        fn(status);
+    });
 })
 
 // Start listening

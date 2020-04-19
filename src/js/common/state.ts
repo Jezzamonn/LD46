@@ -1,6 +1,11 @@
 type GameState = 'start' | 'end' | 'select card' | 'select team' | 'show results';
 type PlayerType = 'good' | 'bad';
 
+interface Status {
+    roomId: string;
+    gameInfo: GameInfo;
+}
+
 interface GameInfo {
     state: GameState;
     players: PlayerInfo[];

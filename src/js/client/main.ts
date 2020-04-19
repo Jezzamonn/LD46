@@ -30,10 +30,14 @@ function initSocketIo() {
 	socket.on('connect', () => {
 		console.log('connected to server!');
 		if (!connectedOnce) {
-			game.getRoom();
+			game.getStatus();
 		}
 		connectedOnce = true;
 	});
+
+	socket.on('status-update', (status: Status) => {
+		game.setStatus(status);
+	})
 }
 
 window.onload = init;

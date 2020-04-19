@@ -9,6 +9,7 @@ export class Game {
     activePlayer: Player | null;
     rng: Chance.Chance;
     deck: Card[];
+    round: number;
 
     constructor() {
         this.state = 'start';
@@ -17,6 +18,51 @@ export class Game {
 
         this.rng = new Chance();
         this.deck = [];
+        this.round = 0;
+    }
+
+    // Getters and such
+
+    get numBadPlayers(): number {
+        return Math.ceil(this.players.length / 2) - 1;
+    }
+
+    get numPlayersPerChoice(): number {
+        return Math.ceil(this.players.length / 2) - 1;
+    }
+
+    getPlayer(playerId: string): Player | null {
+        for (const player of this.players) {
+            if (player.id === playerId) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    getChosenPlayers(): Player[] {
+        return this.players.filter(p => p.chosen);
+    }
+
+    allPlayersSelected(): boolean {
+        return this.players.every(p => p.selectedCard != null);
+    }
+
+    drawCard(): Card {
+        if (this.deck.length == 0) {
+            // Set up the 'deck' with cards;
+            const deck = [];
+            const cardsPerDeck = cardsPerPlayer * this.players.length * 5;
+            for (let i = 0; cardsPerDeck; i += cardsPerPlayer) {
+                deck.push(
+                    {suit: 'star'},
+                    {suit: 'heart'},
+                    {suit: 'clover'}
+                );
+            }
+            this.deck = this.rng.shuffle(deck);
+        }
+        return this.deck.pop();
     }
 
     getGameInfo(playerId: string): GameInfo {
@@ -45,6 +91,8 @@ export class Game {
         return gameInfo;
     }
 
+    // Actions that can happen on the game.
+
     addPlayer(playerId: string) {
         if (this.state != 'start') {
             // Can't add player!
@@ -68,63 +116,11 @@ export class Game {
         // TODO: Shuffle player order?
         this.assignRoles();
         this.dealCards();
+        this.round = 0;
 
         this.activePlayer = this.rng.pick(this.players);
         // TODO: transition to next start
         return true;
-    }
-
-    get numBadPlayers(): number {
-        return Math.ceil(this.players.length / 2) - 1;
-    }
-
-    get numPlayersPerChoice(): number {
-        return Math.ceil(this.players.length / 2) - 1;
-    }
-
-    assignRoles() {
-        const badPlayers = this.rng.pickset(this.players, this.numBadPlayers);
-        for (const player of badPlayers) {
-            player.type = 'bad';
-        }
-    }
-
-    getPlayer(playerId: string): Player | null {
-        for (const player of this.players) {
-            if (player.id === playerId) {
-                return player;
-            }
-        }
-        return null;
-    }
-
-    getChosenPlayers(): Player[] {
-        return this.players.filter(p => p.chosen);
-    }
-
-    getCard(): Card {
-        if (this.deck.length == 0) {
-            // Set up the 'deck' with cards;
-            const deck = [];
-            const cardsPerDeck = cardsPerPlayer * this.players.length * 5;
-            for (let i = 0; cardsPerDeck; i += cardsPerPlayer) {
-                deck.push(
-                    {suit: 'star'},
-                    {suit: 'heart'},
-                    {suit: 'clover'}
-                );
-            }
-            this.deck = this.rng.shuffle(deck);
-        }
-        return this.deck.pop();
-    }
-
-    dealCards() {
-        for (const player of this.players) {
-            while (player.cards.length < cardsPerPlayer) {
-                player.cards.push(this.getCard());
-            }
-        }
     }
 
     selectCard(playerId: string, selection?: number) {
@@ -142,10 +138,6 @@ export class Game {
         player.selectedCard = player.cards[selection];
 
         // TODO: If all players selected, next state
-    }
-
-    allPlayersSelected(): boolean {
-        return this.players.every(p => p.selectedCard != null);
     }
 
     choosePlayer(playerId: string, choiceIndex: number, chosen: boolean) {
@@ -183,6 +175,23 @@ export class Game {
         // TODO: Result of picking a card
 
         // TODO: Show the result of picking, move to the next player
+    }
+
+    // Internal stuff the game does
+
+    assignRoles() {
+        const badPlayers = this.rng.pickset(this.players, this.numBadPlayers);
+        for (const player of badPlayers) {
+            player.type = 'bad';
+        }
+    }
+
+    dealCards() {
+        for (const player of this.players) {
+            while (player.cards.length < cardsPerPlayer) {
+                player.cards.push(this.drawCard());
+            }
+        }
     }
 
 }

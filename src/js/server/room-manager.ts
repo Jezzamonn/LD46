@@ -1,4 +1,5 @@
 import Chance from 'chance';
+import { Game } from './game';
 // In memory room manager thing
 
 export class RoomManager {
@@ -96,10 +97,12 @@ class Room {
     id: string;
     lastUsed: number;
     clients: {[key: string]: Client};
+    game: Game;
 
     constructor(id: string) {
         this.id = id;
         this.clients = {};
+        this.game = new Game();
     }
 }
 
