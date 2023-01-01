@@ -43,14 +43,14 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.3.0",
     "chance": "^1.1.4",
     "express": "^4.17.1",
     "npm-watch": "^0.6.0",
     "reload": "^3.0.4",
     "socket.io": "^2.3.0",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-node-externals": "^1.7.2"
   }
 }
